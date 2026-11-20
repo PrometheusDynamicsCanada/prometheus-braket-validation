@@ -1,26 +1,25 @@
-# Multi-Window Quantum Compilation Tests on Amazon Braket (108-Qubit Rigetti)
+# Multi-Window Quantum Execution Validation on Amazon Braket (108-Qubit Rigetti & 256-Atom QuEra Aquila)
 
 *Explore the portfolio: [Prometheus Quantum Overview](https://github.com/PrometheusDynamicsCanada/prometheus-quantum-overview)*
 
-**We tested Prometheus on physical quantum processors accessed through Amazon Braket, repeating comparisons across different hardware conditions.**
+**We tested Prometheus across both superconducting gate-model and neutral-atom analog quantum processors accessed through Amazon Braket, repeating comparisons across separated execution windows.**
 
-Modular superconducting processors such as Rigetti's `Cepheus-1-108Q` link smaller qubit tiles across inter-module couplers whose error rates shift over time and after recalibration.
-
-Repeating **18 application-style workloads across three calibration windows** on Amazon Braket (initial run, `9.3` hours later, and after processor recalibration), live-calibration Prometheus outperformed Qiskit SABRE on **`16 of 18` workloads (`+3.91%` mean output overlap)** and Quantinuum TKET on **`15 of 18` (`+9.03%`)**, widening its lead over SABRE to **`+6.61%`** after recalibration. Supporting suites in Tables 1A-1C report unseen equal-CPU-budget tasks, QAOA optimization trajectories, and diagnostic Clifford mirrors, including regimes where SABRE or TKET led slightly.
+- **Superconducting Gate-Model (`108Q` `Rigetti Cepheus-1-108Q`, `10` Tasks, `450` Circuits, `460,800` Shots):** Repeating **18 application-style workloads across three calibration windows** (initial run, `+9.3h` drift, and post-recalibration), live-calibration Prometheus outperformed Qiskit SABRE on **`16 of 18` workloads (`+3.91%` mean output overlap)** and Quantinuum TKET on **`15 of 18` (`+9.03%`)**, widening its lead over SABRE to **`+6.61%`** after recalibration. Supporting suites in Tables 1A-1C report unseen equal-CPU-budget tasks, QAOA optimization trajectories, and diagnostic Clifford mirrors, including regimes where SABRE or TKET led slightly.
+- **Neutral-Atom Analog Hamiltonian Simulation (`256`-Atom `QuEra Aquila`, `12` Tasks, `3,000` Rb-87 Shots Across `2` Separated Windows `+6.2h` Apart):** Across `1,500` billed shots and `USD 16.80` per arm (`0` experimental `rydbergLocal` terms, identical `AtomArrangement` registers, `3.0 us` duration, and `15.7 Mrad/s` peak drive), Prometheus outperformed AWS's documented baseline in **both execution windows (`445` vs. `421` in Window 1; `436` vs. `431` in Window 2 = `881` vs. `852` exact optimal answers, `+3.40%` pooled yield, `-3.29%` pooled cost/optimum)**, replicated **`60.00%` (`150/250`) in both windows** on the hardest `12A` topology (`HP = 4.80`: **`300/500` vs. `254/500`, `+18.11%` yield, `-15.35%` cost/optimum, Fisher `p = 0.0042`**), and recorded **`40.34%` fewer suboptimal maximal-independent-set outcomes across `6 of 6` paired tasks (`105` vs. `176`, `p = 1.1e-5`)**.
 
 **[Detailed results](DETAILED_TECHNICAL_REPORT.md) · [Verify the evidence](#verify-the-evidence) · [Discuss a pilot](#discuss-a-pilot)**
 
 ![Three-Calibration-Window Replication on 108-Qubit Rigetti Hardware](assets/fig1_rigetti_3window_replication.png)
-*Opening summary (`Pillar 1` on `108Q` `Rigetti Cepheus-1-108Q` via AWS Braket): Measured output-distribution overlap across `18` workloads (`4Q-17Q`, `216` circuits) before drift (`Window 1`), after `+9.3h` drift (`Window 2`), and after device recalibration (`Window 3`, `+6.61%` vs. SABRE O3).*
+*Opening summary (`Part I` on `108Q` `Rigetti Cepheus-1-108Q` via AWS Braket): Measured output-distribution overlap across `18` workloads (`4Q-17Q`, `216` circuits) before drift (`Window 1`), after `+9.3h` drift (`Window 2`), and after device recalibration (`Window 3`, `+6.61%` vs. SABRE O3).*
 
 ---
 
-## 1. Principal Comparative Benchmark Tables (Separated by Workload & Metric Type)
+## 1. Principal Comparative Benchmark Tables (Separated by Architecture, Workload & Metric Type)
 
-*Campaign Scope:* `10` AWS Braket `ProgramSet` tasks, `450` verbatim physical circuits, and `460,800` physical shots across `19.1` hours and three calibration windows on 108-qubit `Rigetti Cepheus-1-108Q`.
+*Combined Repository Scope:* **`22` AWS Braket Tasks** (`10` `ProgramSet` tasks on `108Q` `Rigetti Cepheus-1-108Q` [`450` circuits, `460,800` shots, `USD 198.8400`] + `12` Analog Hamiltonian Simulation tasks on `256`-atom `QuEra Aquila` [`12` global schedules, `3,000` Rb-87 shots, `USD 33.6000`]) = **`462` physical executions and `463,800` physical measurement shots (`USD 232.4400` settled)**.
 
 > [!NOTE]
-> **Metric Conventions:** Tables 1A-1C use descriptive columns matched to each experiment rather than overloading a single schema. Classical Distribution Overlap is $F_B = \sum_x \sqrt{P_{\text{ideal}}(x) P_{\text{meas}}(x)}$ (labeled `"State Fidelity"` in Studio UIs); Squared Hellinger Fidelity is $F_H = F_B^2$; Total Variation Distance is $\text{TVD} = \frac{1}{2}\sum_x |P_{\text{ideal}}(x) - P_{\text{meas}}(x)|$. Direction indicators `(↑)` and `(↓)` denote optimality; **bold** marks cohort winners. All `10` AWS Braket Task ARNs (`arn:aws:braket:us-west-1:893688540163:quantum-task/2a6b5957...` through `8e797e69...`) are indexed in [`DETAILED_TECHNICAL_REPORT.md`](DETAILED_TECHNICAL_REPORT.md) and [`data/ALL_450_RIGETTI_CIRCUITS_RESULTS.csv`](data/ALL_450_RIGETTI_CIRCUITS_RESULTS.csv).
+> **Metric Conventions:** Tables 1A-1D use descriptive columns matched to each architecture and experiment rather than overloading a single schema. Classical Distribution Overlap is $F_B = \sum_x \sqrt{P_{\text{ideal}}(x) P_{\text{meas}}(x)}$ (labeled `"State Fidelity"` in Studio UIs); Squared Hellinger Fidelity is $F_H = F_B^2$; Total Variation Distance is $\text{TVD} = \frac{1}{2}\sum_x |P_{\text{ideal}}(x) - P_{\text{meas}}(x)|$. Direction indicators `(↑)` and `(↓)` denote optimality; **bold** marks cohort winners. All `22` AWS Braket Task ARNs are indexed in [`DETAILED_TECHNICAL_REPORT.md`](DETAILED_TECHNICAL_REPORT.md), [`data/ALL_450_RIGETTI_CIRCUITS_RESULTS.csv`](data/ALL_450_RIGETTI_CIRCUITS_RESULTS.csv), and [`data/ALL_12_QUERA_AQUILA_TASKS_RESULTS.csv`](data/ALL_12_QUERA_AQUILA_TASKS_RESULTS.csv).
 
 ### Table 1A: Core Multi-Window Sweep (`Pillar 1`, `N = 18` Workloads, `4Q-17Q`) & Unseen Equal-CPU-Budget Suite (`Pillar 4`, `N = 12`, `6Q-12Q`)
 
@@ -46,17 +45,32 @@ Repeating **18 application-style workloads across three calibration windows** on
 | **Qiskit SABRE O3** | **0.2442** | **0.6221 / 0.6151** | **0.0907** | **6.0116** | 120.67 \| 119.44 | **Led 4Q-36Q Rigetti mirror suite** despite `5.2%` more CZ gates than Prometheus |
 | **Quantinuum TKET O2** | 0.0501 | 0.5251 / 0.5250 | 0.0192 | 7.0173 | 182.00 \| 201.33 | Severe inter-tile SWAP overhead (`+58.7%` more CZ gates than Prometheus) |
 
+### Table 1D: Two-Window Neutral-Atom Analog Hamiltonian Simulation (`256`-Atom `QuEra Aquila`, `N = 12` AWS Braket Tasks, `3,000` Physical Rb-87 Shots Across `+6.2h` Separated Windows, `USD 33.6000`)
+
+*Scope & Matched Controls:* `3` development-selected King's-Graph Unit-Disk Graph `MIS` topologies (`11A`, `12A`, `13A`; unique `D_alpha = 1` optimum) $\times$ `2` matched-duration (`3.0 us`, `15.70 Mrad/s` peak Rabi drive, `0` `rydbergLocal` terms, identical `AtomArrangement` coordinates) global `DrivingField` schedules $\times$ `2` interleaved hardware windows (`250` shots/task = `500` shots/arm per instance; `1,500` shots and `USD 16.80` per arm total).
+
+| Instance / Cohort (`500` Shots/Arm per Instance; `1,500` Shots/Arm Total) | Global Schedule (`T = 3.0 us`) | Valid IS Rate $P_{\text{valid}}$ `(↑)` *(All / Defect-Free)* | Exact Optimum $P_{\text{opt}}$ `(↑)` *(All Billed Shots)* | Exact Optimum $P_{\text{opt}}$ `(↑)` *(Defect-Free Subset)* | Unrepaired Quality $r_{\text{MIS}}$ `(↑)` `*(mean)*` | Suboptimal MIS Outcomes `(↓)` *(All / DF)* | Blockade Viol. \| Pre-Seq Vacancies `(↓)` | Billed `USD / Opt` `(↓)` (`% Delta`, Two-Sided Fisher `p`) |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| **`P1_EbadiHard_11A_s7045`** (`11A`, `MIS = 5`, `HP = 3.00`)<br>Tasks `f95ab6...`, `b0aa91...`, `095425...`, `c1b166...` | AWS Documented Baseline<br>**Prometheus Schedule** | **`95.00%` / `94.67%`**<br>`93.60%` / `93.70%` | **`62.20%` (`311/500`)**<br>`60.40%` (`302/500`) | **`63.33%` (`297/469`)**<br>`62.18%` (`296/476`) | **`0.8732`**<br>`0.8564` | `8.80%` (`44`) / `8.10%`<br>**`5.40%` (`27`) / `4.20%`** | **`25`** \| `31`<br>`32` \| **`24`** | **`\$0.01801`**<br>`\$0.01854` (`+2.98%`, `p = 0.6035`; subopt. MIS **-38.6%**, `p = 0.0482`) |
+| **`P2_EbadiHard_12A_s8024`** (`12A`, `MIS = 5`, `HP = 4.80`)<br>Tasks `7cba59...`, `c2d84a...`, `ce66ea...`, `6d0844...` | AWS Documented Baseline<br>**Prometheus Schedule** | `89.40%` / `89.46%`<br>**`92.40%` / `92.36%`** | `50.80%` (`254/500`)<br>**`60.00%` (`300/500`)** | `51.61%` (`240/465`)<br>**`61.15%` (`288/471`)** | `0.8016`<br>**`0.8464`** | `16.40%` (`82`) / `15.48%`<br>**`9.60%` (`48`) / `7.22%`** | `53` \| `35`<br>**`38` \| `29`** | `\$0.02205`<br>**`\$0.01867` (`-15.35%`, `p = 0.0042`; `60.0%` in both R1 & R2)** |
+| **`P3_EbadiHard_13A_s9001`** (`13A`, `MIS = 6`, `HP = 3.33`)<br>Tasks `08c026...`, `b48c80...`, `9e5b07...`, `88a26a...` | AWS Documented Baseline<br>**Prometheus Schedule** | `92.00%` / `91.56%`<br>**`92.80%` / `92.55%`** | **`57.40%` (`287/500`)**<br>`55.80%` (`279/500`) | **`60.17%` (`278/462`)**<br>`58.09%` (`273/470`) | `0.8500`<br>**`0.8507`** | `10.00%` (`50`) / `6.93%`<br>**`6.00%` (`30`) / `4.47%`** | `40` \| `38`<br>**`36` \| `30`** | **`\$0.01951`**<br>`\$0.02007` (`+2.87%`, `p = 0.6552`; subopt. MIS **-40.0%**, `p = 0.0263`) |
+| **6-Task Campaign `*(mean / median)*`**<br>(`250` Shots/Task $\times$ `6` Tasks/Arm) | AWS Documented Baseline<br>**Prometheus Schedule** | `92.13% / 92.00%`<br>**`92.93% / 92.60%`** | `56.80% / 57.40%`<br>**`58.73% / 60.00%`** | `58.40% / 59.22%`<br>**`60.46% / 61.15%`** | `0.8416` / **0.8500**<br>**`0.8512`** / `0.8490` | `11.73% / 10.00%`<br>**`7.00% / 6.80%`** | `19.67` \| `17.33`<br>**`17.67` \| `13.83`** | `\$0.01988 / \$0.01955`<br>**`\$0.01912 / \$0.01870` (`-3.85%` mean / `-4.35%` med)** |
+| **Grand Pooled Totals (`3,000` Shots)**<br>(`1,500` Shots / `USD 16.80` per Arm) | AWS Documented Baseline<br>**Prometheus Schedule** | `1382/1500` (`92.13%`)<br>**`1394/1500` (`92.93%`)** | `852/1500` (`56.80%`)<br>**`881/1500` (`58.73%`)** | `815/1396` (`58.38%`)<br>**`857/1417` (`60.48%`)** | `0.8416`<br>**`0.8512`** | `176/1500` (`11.73%`)<br>**`105/1500` (`7.00%`)** | `118` \| `104`<br>**`106` \| `83`** | `\$0.01972`<br>**`\$0.01907` (`-3.29%` pooled; subopt. MIS `-40.34%`, `p = 1.1e-5`)** |
+
+![Two-Window Neutral-Atom Replication on 256-Atom QuEra Aquila](assets/fig5_aquila_2window_neutral_atom_replication.png)
+*Part II summary (`256`-atom `QuEra Aquila` via AWS Braket): Separated two-window replication (`+6.2h` apart, `12` AHS tasks, `3,000` physical Rb-87 shots) showing higher overall billed optimal-answer yield in both rounds (`59.3%` vs. `56.1%` in R1; `58.1%` vs. `57.5%` in R2) and repeated `60.0%` optimum probability on the hardest `12A` (`HP = 4.80`) topology (`p = 0.0042`, `-15.35%` cost/optimum).*
+
 ---
 
 ## Verify the Evidence
 
-**Verification Kind:** Direct **raw-measurement histogram + compiled OpenQASM reconstruction** across all `450` physical circuits (`10` AWS Braket Task JSONs in `data/jobs/`, zero cloud credentials required; note that local commitment wrapper timestamps precede submission on Tasks 3-10 while Tasks 1-2 reflect runner-resume wrapper serialization over unmodified pre-submission caches, as documented in [`PUBLIC_DISCLOSURE.md`](PUBLIC_DISCLOSURE.md)):
+**Verification Kind:** Direct **raw-measurement histogram + compiled OpenQASM reconstruction** across all `450` `Rigetti Cepheus-1-108Q` circuits (`10` AWS Braket Task JSONs in `data/jobs/`) **plus raw `pre_sequence`/`post_sequence` neutral-atom shot reconstruction** across all `12` `QuEra Aquila` tasks (`3,000` physical Rb-87 shots in `data/aquila_neutral_atom/tasks/`, zero cloud credentials required; note that local commitment wrapper timestamps on Rigetti Tasks 3-10 precede submission while Tasks 1-2 reflect runner-resume wrapper serialization over unmodified pre-submission caches, as documented in [`PUBLIC_DISCLOSURE.md`](PUBLIC_DISCLOSURE.md)):
 
 ```bash
 python scripts/verify_braket_campaign.py
 ```
 
-- **Key files:** [`DETAILED_TECHNICAL_REPORT.md`](DETAILED_TECHNICAL_REPORT.md) · [`data/ALL_450_RIGETTI_CIRCUITS_RESULTS.csv`](data/ALL_450_RIGETTI_CIRCUITS_RESULTS.csv) · [`PUBLIC_DISCLOSURE.md`](PUBLIC_DISCLOSURE.md) · [`REPOSITORY_SHA256SUMS.txt`](REPOSITORY_SHA256SUMS.txt)
+- **Key files:** [`DETAILED_TECHNICAL_REPORT.md`](DETAILED_TECHNICAL_REPORT.md) · [`data/ALL_450_RIGETTI_CIRCUITS_RESULTS.csv`](data/ALL_450_RIGETTI_CIRCUITS_RESULTS.csv) · [`data/ALL_12_QUERA_AQUILA_TASKS_RESULTS.csv`](data/ALL_12_QUERA_AQUILA_TASKS_RESULTS.csv) · [`PUBLIC_DISCLOSURE.md`](PUBLIC_DISCLOSURE.md) · [`REPOSITORY_SHA256SUMS.txt`](REPOSITORY_SHA256SUMS.txt)
 
 ---
 

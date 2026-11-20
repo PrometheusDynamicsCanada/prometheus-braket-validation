@@ -49,3 +49,47 @@ Contains 10 rows corresponding to the 10 identical logical workloads (`dense_6q_
 | `ibm_heron_3qpu_mean_2q_sabre` | `float` | `(↓)` | 3-QPU mean native two-qubit gate count on `IBM Heron` for `SABRE O3`. |
 | `ibm_heron_3qpu_mean_2q_tket` | `float` | `(↓)` | 3-QPU mean native two-qubit gate count on `IBM Heron` for `TKET`. |
 | `ibm_heron_3qpu_mean_2q_prometheus` | `float` | `(↓)` | 3-QPU mean native two-qubit gate count on `IBM Heron` for `Prometheus`. |
+
+---
+
+## 3. Neutral-Atom Ledger: `data/ALL_12_QUERA_AQUILA_TASKS_RESULTS.csv`
+
+Contains 12 rows (one per live AWS Braket Analog Hamiltonian Simulation task on `256`-atom `QuEra Aquila`, totaling `3,000` physical Rb-87 shots across 2 separated execution windows, `USD 33.6000`). Zero cells contain placeholder values.
+
+| Column Name | Type | Direction | Description |
+| :--- | :--- | :---: | :--- |
+| `round` | `int` | Info | Separated execution window index (`1` or `2`, `+6.2h` apart on `2026-11-20`). |
+| `seq_pos` | `int` | Info | Interleaved submission position (`1` to `6`) within the round. |
+| `task_key` | `string` | Info | Unique campaign task key (`R{1,2}_{problem_id}_{arm}`). |
+| `task_arn` | `string` | Info | Verifiable AWS Braket Quantum Task ARN (`arn:aws:braket:us-east-1:893688540163:quantum-task/...`). |
+| `backend` | `string` | Info | Target neutral-atom QPU identifier (`QuEra_Aquila_256Q`). |
+| `problem_id` | `string` | Info | Development-selected King's-Graph UDG `MIS` instance (`P1_EbadiHard_11A_s7045`, `P2_EbadiHard_12A_s8024`, `P3_EbadiHard_13A_s9001`). |
+| `n_atoms` | `int` | Info | Number of physical Rb-87 atoms in the shared register (`11`, `12`, or `13`). |
+| `alpha_mis` | `int` | Info | Exact Maximum Independent Set cardinality (`5`, `5`, or `6`). |
+| `ebadi_hp` | `float` | Info | Classical Ebadi Hardness parameter `HP = D_{|MIS|-1} / (|MIS| * D_{|MIS|})` (`3.0`, `4.8`, or `3.333`). |
+| `pipeline` | `string` | Info | Public schedule designation (`aws_documented_baseline` or `prometheus_schedule`). |
+| `shots` | `int` | Info | Billed physical Rb-87 shots per task (`250`). |
+| `charged_usd` | `float` | `(↓)` | On-demand AWS Braket task charge (`0.30 + 0.01 * 250 = 2.8000 USD`). |
+| `created_at_utc` | `string` | Info | AWS Braket task creation timestamp (`UTC`). |
+| `ended_at_utc` | `string` | Info | AWS Braket task completion timestamp (`UTC`). |
+| `ir_sha256` | `string` | Info | SHA-256 digest of the frozen discretized `AnalogHamiltonianSimulation` IR program. |
+| `raw_task_file` | `string` | Info | Relative path to the archived per-shot `pre_sequence` / `post_sequence` JSON (`data/aquila_neutral_atom/tasks/*.json`). |
+| `raw_task_sha256` | `string` | Info | SHA-256 digest of `raw_task_file`. |
+| `sorting_defect_shots` | `int` | `(↓)` | Shots with >= 1 pre-sequence optical-tweezer vacancy (`pre_sequence` containing `0`). |
+| `defect_free_shots` | `int` | `(↑)` | Shots with complete pre-sequence atom loading (`pre_sequence == all 1s`). |
+| `valid_is_shots_all` | `int` | `(↑)` | Shots satisfying zero Unit-Disk Graph blockade violations across all `250` billed shots. |
+| `p_valid_all` | `float` | `(↑)` | Valid independent-set fraction across all `250` billed shots. |
+| `blockade_violation_shots` | `int` | `(↓)` | Shots containing >= 1 adjacent excited pair (`250 - valid_is_shots_all`). |
+| `exact_opt_shots_all` | `int` | `(↑)` | Exact unique-`MIS` optimal answers across all `250` billed shots. |
+| `p_opt_all` | `float` | `(↑)` | Exact optimal-answer yield across all `250` billed shots. |
+| `suboptimal_trap_shots_all` | `int` | `(↓)` | Measured suboptimal `(alpha - 1)` maximal-independent-set outcomes across all `250` billed shots. |
+| `p_trap_all` | `float` | `(↓)` | Suboptimal maximal-independent-set rate across all `250` billed shots. |
+| `mean_unrepaired_quality_all` | `float` | `(↑)` | Unrepaired valid `MIS` size ratio `|I| / alpha_mis` averaged across all `250` billed shots (`0` if invalid). |
+| `shannon_entropy_bits` | `float` | Info | Observed Shannon entropy of measured Rydberg excitation bitstrings (`bits`). |
+| `usd_per_opt_all` | `float` | `(↓)` | Charged task cost divided by `exact_opt_shots_all` (`USD`). |
+| `valid_is_shots_df` | `int` | `(↑)` | Valid independent-set shots within the defect-free loaded subset. |
+| `p_valid_df` | `float` | `(↑)` | Valid independent-set rate within the defect-free loaded subset. |
+| `exact_opt_shots_df` | `int` | `(↑)` | Exact optimal answers within the defect-free loaded subset. |
+| `p_opt_df` | `float` | `(↑)` | Exact optimal-answer rate within the defect-free loaded subset. |
+| `suboptimal_trap_shots_df` | `int` | `(↓)` | Suboptimal maximal-independent-set outcomes within the defect-free loaded subset. |
+| `p_trap_df` | `float` | `(↓)` | Suboptimal maximal-independent-set rate within the defect-free loaded subset. |

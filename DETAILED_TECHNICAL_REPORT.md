@@ -105,10 +105,31 @@
 
 ---
 
-## 4. Verification Protocol & Repository Structure
+## 4. Two-Window Neutral-Atom Ledger on `256`-Atom `QuEra Aquila` (`12` AWS Braket Tasks, `3,000` Rb-87 Shots, `USD 33.6000`)
 
-- **Pre-Dispatch Equivalence Verification:** All non-Clifford circuits traversing ≤ 20 active physical wires were verified before dispatch for exact statevector equivalence (max_x |P_ideal(x) - P_compiled(x)| < 10⁻⁶ under physical measurement wire remapping); larger 14Q-17Q instances traversing > 20 active physical wires enforced 1-to-1 measurement bijection, zero post-measurement ops, and native basis-gate compliance (`rx`, `rz`, `cz`, `measure`). All 66 Clifford mirror and SPAM circuits (4Q-36Q) were verified via exact `StabilizerState` simulation.
-- **One-Command Raw-Histogram Audit (450/450 Circuits):** [`scripts/verify_braket_campaign.py`](scripts/verify_braket_campaign.py) verifies all file checksums in [`REPOSITORY_SHA256SUMS.txt`](REPOSITORY_SHA256SUMS.txt), audits task ARNs and timestamps, and recomputes every circuit's score directly from the 450 raw hardware bitstring histograms (`pub_counts` in `data/jobs/*.json`) and logical references in `data/logical_circuits/`:
+![Figure 5: Two-Window Neutral-Atom Replication on 256-Atom QuEra Aquila](assets/fig5_aquila_2window_neutral_atom_replication.png)
+
+| Round & Queue Pos | Instance (`Atoms`, `HP`) | Pipeline (`T = 3.0 us`) | Ended (`UTC`) | Valid IS `(↑)` | Exact Opt `(↑)` *(All)* | Exact Opt `(↑)` *(DF)* | Subopt. MIS `(↓)` | Viol. \| Vac. `(↓)` | Quality $r_{\text{MIS}}$ `(↑)` | Entropy `(bits)` `(↓)` | `USD/Opt` `(↓)` | AWS Braket Task ARN (`us-east-1`) |
+| :---: | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| `R1 #1` | `P3` (`13A`, `3.33`) | **Prometheus** | `2026-11-20T04:15:56Z` | **230 (`92.0%`)** | **145 (`58.0%`)** | **142/239 (`59.41%`)** | **10 (`4.0%`)** | **20 \| 11** | **0.8467** | **3.0183** | **`USD 0.0193`** | `arn:aws:braket:us-east-1:893688540163:quantum-task/b48c8077-1bde-4200-b43d-7e00b1f67730` |
+| `R1 #2` | `P3` (`13A`, `3.33`) | AWS Baseline | `2026-11-20T04:18:05Z` | 228 (`91.2%`) | 138 (`55.2%`) | 134/235 (`57.02%`) | 24 (`9.6%`) | 22 \| 15 | 0.8420 | 3.1366 | `USD 0.0203` | `arn:aws:braket:us-east-1:893688540163:quantum-task/08c02636-aa6b-43d9-ad4f-02c3645f52b3` |
+| `R1 #3` | `P2` (`12A`, `4.80`) | AWS Baseline | `2026-11-20T04:21:18Z` | 224 (`89.6%`) | 131 (`52.4%`) | 127/237 (`53.59%`) | 37 (`14.8%`) | 26 \| 13 | 0.8064 | 3.3446 | `USD 0.0214` | `arn:aws:braket:us-east-1:893688540163:quantum-task/7cba59c1-a937-4501-ad49-d68c9fdabc3b` |
+| `R1 #4` | `P2` (`12A`, `4.80`) | **Prometheus** | `2026-11-20T04:23:26Z` | **233 (`93.2%`)** | **150 (`60.0%`)** | **145/238 (`60.92%`)** | **24 (`9.6%`)** | **17 \| 12** | **0.8512** | **2.9126** | **`USD 0.0187`** | `arn:aws:braket:us-east-1:893688540163:quantum-task/c2d84a13-cba2-49ef-920c-90f9b94986d8` |
+| `R1 #5` | `P1` (`11A`, `3.00`) | **Prometheus** | `2026-11-20T04:26:40Z` | 230 (`92.0%`) | 150 (`60.0%`) | **146/235 (`62.13%`)** | **13 (`5.2%`)** | 20 \| 15 | 0.8408 | 2.8706 | `USD 0.0187` | `arn:aws:braket:us-east-1:893688540163:quantum-task/b0aa917c-caa3-4164-a526-77ff21db97f3` |
+| `R1 #6` | `P1` (`11A`, `3.00`) | AWS Baseline | `2026-11-20T04:28:48Z` | **239 (`95.6%`)** | **152 (`60.8%`)** | 148/241 (`61.41%`) | 24 (`9.6%`) | **11 \| 9** | **0.8736** | **2.6347** | **`USD 0.0184`** | `arn:aws:braket:us-east-1:893688540163:quantum-task/f95ab630-d0e2-4a2b-bab8-1fe83c9b2797` |
+| `R2 #1` | `P1` (`11A`, `3.00`) | AWS Baseline | `2026-11-20T10:32:29Z` | 236 (`94.4%`) | **159 (`63.6%`)** | **149/228 (`65.35%`)** | 20 (`8.0%`) | 14 \| 22 | **0.8728** | **2.5260** | **`USD 0.0176`** | `arn:aws:braket:us-east-1:893688540163:quantum-task/09542580-f2cd-4099-83b3-2376693b2830` |
+| `R2 #2` | `P1` (`11A`, `3.00`) | **Prometheus** | `2026-11-20T10:34:38Z` | **238 (`95.2%`)** | 152 (`60.8%`) | 150/241 (`62.24%`) | **14 (`5.6%`)** | **12 \| 9** | 0.8720 | 2.6018 | `USD 0.0184` | `arn:aws:braket:us-east-1:893688540163:quantum-task/c1b16629-3e8e-416d-bdde-0070f29edf50` |
+| `R2 #3` | `P3` (`13A`, `3.33`) | **Prometheus** | `2026-11-20T10:36:43Z` | **234 (`93.6%`)** | 134 (`53.6%`) | 131/231 (`56.71%`) | **20 (`8.0%`)** | **16 \| 19** | 0.8547 | 3.1124 | `USD 0.0209` | `arn:aws:braket:us-east-1:893688540163:quantum-task/88a26a0b-91b0-4727-ac41-80795a0a0f7f` |
+| `R2 #4` | `P3` (`13A`, `3.33`) | AWS Baseline | `2026-11-20T10:38:52Z` | 232 (`92.8%`) | **149 (`59.6%`)** | **144/227 (`63.44%`)** | 26 (`10.4%`) | 18 \| 23 | **0.8580** | **2.9796** | **`USD 0.0188`** | `arn:aws:braket:us-east-1:893688540163:quantum-task/9e5b0732-f4c5-4abe-836e-a0ccdb742a7b` |
+| `R2 #5` | `P2` (`12A`, `4.80`) | AWS Baseline | `2026-11-20T10:41:01Z` | 223 (`89.2%`) | 123 (`49.2%`) | 113/228 (`49.56%`) | 45 (`18.0%`) | 27 \| 22 | 0.7968 | 3.3645 | `USD 0.0228` | `arn:aws:braket:us-east-1:893688540163:quantum-task/ce66eabb-117e-40ec-8244-f9a48952a0bc` |
+| `R2 #6` | `P2` (`12A`, `4.80`) | **Prometheus** | `2026-11-20T10:43:10Z` | **229 (`91.6%`)** | **150 (`60.0%`)** | **143/233 (`61.37%`)** | **24 (`9.6%`)** | **21 \| 17** | **0.8416** | **2.8904** | **`USD 0.0187`** | `arn:aws:braket:us-east-1:893688540163:quantum-task/6d0844a8-e60c-410c-8da5-016fad5b908b` |
+
+---
+
+## 5. Verification Protocol & Repository Structure
+
+- **Pre-Dispatch Equivalence Verification:** All non-Clifford gate-model circuits traversing <= 20 active physical wires were verified before dispatch for exact statevector equivalence (max_x |P_ideal(x) - P_compiled(x)| < 1e-6 under physical measurement wire remapping); larger 14Q-17Q instances traversing > 20 active physical wires enforced 1-to-1 measurement bijection, zero post-measurement ops, and native basis-gate compliance (`rx`, `rz`, `cz`, `measure`). All 66 Clifford mirror and SPAM circuits (4Q-36Q) were verified via exact `StabilizerState` simulation. All 3 `QuEra Aquila` King's-Graph UDG configurations verified exact Rydberg ground-state equivalence with the unique classical `MIS` optimum (`0` `rydbergLocal` terms).
+- **One-Command Raw-Measurement Audit (`450/450` Rigetti Circuits + `12/12` QuEra Aquila Tasks):** [`scripts/verify_braket_campaign.py`](scripts/verify_braket_campaign.py) verifies all file checksums in [`REPOSITORY_SHA256SUMS.txt`](REPOSITORY_SHA256SUMS.txt) and [`REPO_SHA256_MANIFEST.json`](REPO_SHA256_MANIFEST.json), audits all `22` AWS Braket Task ARNs, and recomputes every Rigetti circuit and QuEra Aquila shot directly from raw measurements (`463,800` physical shots total):
 
 ```bash
 python scripts/verify_braket_campaign.py
@@ -120,15 +141,18 @@ prometheus-braket-validation/
 ├── PUBLIC_DISCLOSURE.md                                    # IP protection boundary & empirical provenance statement
 ├── DATA_DICTIONARY.md                                      # Complete column-by-column schema reference
 ├── REPOSITORY_SHA256SUMS.txt                               # LF-normalized SHA-256 manifest of all tracked files
+├── REPO_SHA256_MANIFEST.json                               # Structured JSON SHA-256 manifest
 ├── assets/                                                 # 300-DPI PNG and vector PDF visualizations
 ├── data/
-│   ├── ALL_450_RIGETTI_CIRCUITS_RESULTS.csv                # Master 450-row circuit ledger (zero placeholder cells)
+│   ├── ALL_450_RIGETTI_CIRCUITS_RESULTS.csv                # Master 450-row Rigetti circuit ledger (zero placeholder cells)
+│   ├── ALL_12_QUERA_AQUILA_TASKS_RESULTS.csv               # Master 12-row QuEra Aquila neutral-atom ledger (3,000 Rb-87 shots)
 │   ├── CROSS_PROVIDER_RIGETTI_VS_IBM_HERON_10WORKLOADS.csv # 10-workload Rigetti vs. IBM Heron comparison table
+│   ├── aquila_neutral_atom/                                # UDG register specs & 12 raw pre/post_sequence Braket task JSONs
 │   ├── calibration_snapshots/                              # Live Rigetti Cepheus-1-108Q calibration snapshots (W1, W2, W3)
 │   ├── commitments/                                        # Pre-execution SHA-256 commitment ledgers (6 batches)
-│   ├── jobs/                                               # Raw AWS Braket task payloads & bitstring histograms (10 tasks)
+│   ├── jobs/                                               # Raw AWS Braket Rigetti ProgramSet payloads (10 tasks)
 │   ├── logical_circuits/                                   # Unrouted .qasm circuits, .npz ideal distributions, & target specs
 │   └── results/                                            # Scored JSON ledgers & 3-window statistical summary
 └── scripts/
-    └── verify_braket_campaign.py                           # Standalone raw-histogram & statistical audit script (numpy + scipy)
+    └── verify_braket_campaign.py                           # Standalone raw-measurement & statistical audit script (numpy + scipy)
 ```

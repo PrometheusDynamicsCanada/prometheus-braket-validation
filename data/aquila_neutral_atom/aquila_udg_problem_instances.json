@@ -1,0 +1,511 @@
+{
+  "campaign": "QuEra_Aquila_TwoWindow_NeutralAtom_Validation",
+  "target_device_arn": "arn:aws:braket:us-east-1::device/qpu/quera/Aquila",
+  "original_private_manifest_sha256": "c6788a9b58803c4b24e59cbcfe0cf9c9830087435c5ff93fd9f55c6bf51687b5",
+  "c6_rad_m6_per_s": 5.42e-24,
+  "total_tasks": 12,
+  "shots_per_task": 250,
+  "total_physical_shots": 3000,
+  "task_fee_usd": 0.3,
+  "per_shot_fee_usd": 0.01,
+  "total_settled_usd": 33.6,
+  "instances": [
+    {
+      "problem_id": "P1_EbadiHard_11A_s7045",
+      "title": "11-Atom Top-Hardness Unique-MIS King's-Graph UDG (HP=3.00)",
+      "selection_status": "development_selected_pilot_instance",
+      "n_atoms": 11,
+      "n_edges": 18,
+      "r_udg_cutoff_um": 7.5,
+      "coords_um": [
+        [
+          18.4,
+          0.0
+        ],
+        [
+          9.2,
+          4.6
+        ],
+        [
+          13.8,
+          4.6
+        ],
+        [
+          0.0,
+          9.2
+        ],
+        [
+          13.8,
+          9.2
+        ],
+        [
+          0.0,
+          13.8
+        ],
+        [
+          4.6,
+          13.8
+        ],
+        [
+          9.2,
+          13.8
+        ],
+        [
+          13.8,
+          13.8
+        ],
+        [
+          4.6,
+          18.4
+        ],
+        [
+          9.2,
+          18.4
+        ]
+      ],
+      "edges": [
+        [
+          0,
+          2
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          3,
+          5
+        ],
+        [
+          3,
+          6
+        ],
+        [
+          4,
+          7
+        ],
+        [
+          4,
+          8
+        ],
+        [
+          5,
+          6
+        ],
+        [
+          5,
+          9
+        ],
+        [
+          6,
+          7
+        ],
+        [
+          6,
+          9
+        ],
+        [
+          6,
+          10
+        ],
+        [
+          7,
+          8
+        ],
+        [
+          7,
+          9
+        ],
+        [
+          7,
+          10
+        ],
+        [
+          8,
+          10
+        ],
+        [
+          9,
+          10
+        ]
+      ],
+      "min_radial_um": 4.6,
+      "min_nonzero_row_gap_um": 4.6,
+      "max_edge_um": 6.5054,
+      "min_nonedge_um": 9.2,
+      "blockade_contrast_ratio": 8.0,
+      "alpha_mis": 5,
+      "n_optimal_mis_states": 1,
+      "optimal_masks": [
+        779
+      ],
+      "n_alpha_minus_1_states": 15,
+      "ebadi_hardness_hp": 3.0,
+      "n_valid_is_states": 108,
+      "n_suboptimal_maximal_traps": 17,
+      "matched_controls": {
+        "identical_atom_coordinates": true,
+        "pulse_duration_us": 3.0,
+        "omega_peak_Mrad_s": 15.7,
+        "uses_local_detuning": false,
+        "baseline_reference": "amazon-braket-examples/examples/analog_hamiltonian_simulation/02_Ordered_phases_in_Rydberg_systems.ipynb (Cell 7)"
+      },
+      "arm1_aws_baseline_ir_sha256": "05a3d0ee94cbbb482db5b01bec4e8adda82f8c4c06129588f25a543307afef88",
+      "arm2_prometheus_schedule_ir_sha256": "768f5efbfb6c65b738730f9b137b91a301766a1f35735370d44f9861af4a15c7"
+    },
+    {
+      "problem_id": "P2_EbadiHard_12A_s8024",
+      "title": "12-Atom Top-Hardness Overlapping-K4 King's-Graph UDG (HP=4.80)",
+      "selection_status": "development_selected_pilot_instance",
+      "n_atoms": 12,
+      "n_edges": 21,
+      "r_udg_cutoff_um": 7.5,
+      "coords_um": [
+        [
+          9.2,
+          0.0
+        ],
+        [
+          13.8,
+          0.0
+        ],
+        [
+          13.8,
+          4.6
+        ],
+        [
+          18.4,
+          4.6
+        ],
+        [
+          13.8,
+          9.2
+        ],
+        [
+          18.4,
+          9.2
+        ],
+        [
+          4.6,
+          13.8
+        ],
+        [
+          13.8,
+          13.8
+        ],
+        [
+          18.4,
+          13.8
+        ],
+        [
+          0.0,
+          18.4
+        ],
+        [
+          9.2,
+          18.4
+        ],
+        [
+          13.8,
+          18.4
+        ]
+      ],
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          3,
+          5
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          4,
+          7
+        ],
+        [
+          4,
+          8
+        ],
+        [
+          5,
+          7
+        ],
+        [
+          5,
+          8
+        ],
+        [
+          6,
+          9
+        ],
+        [
+          6,
+          10
+        ],
+        [
+          7,
+          8
+        ],
+        [
+          7,
+          10
+        ],
+        [
+          7,
+          11
+        ],
+        [
+          8,
+          11
+        ],
+        [
+          10,
+          11
+        ]
+      ],
+      "min_radial_um": 4.6,
+      "min_nonzero_row_gap_um": 4.6,
+      "max_edge_um": 6.5054,
+      "min_nonedge_um": 9.2,
+      "blockade_contrast_ratio": 8.0,
+      "alpha_mis": 5,
+      "n_optimal_mis_states": 1,
+      "optimal_masks": [
+        1801
+      ],
+      "n_alpha_minus_1_states": 24,
+      "ebadi_hardness_hp": 4.8,
+      "n_valid_is_states": 144,
+      "n_suboptimal_maximal_traps": 27,
+      "matched_controls": {
+        "identical_atom_coordinates": true,
+        "pulse_duration_us": 3.0,
+        "omega_peak_Mrad_s": 15.7,
+        "uses_local_detuning": false,
+        "baseline_reference": "amazon-braket-examples/examples/analog_hamiltonian_simulation/02_Ordered_phases_in_Rydberg_systems.ipynb (Cell 7)"
+      },
+      "arm1_aws_baseline_ir_sha256": "9d5fa5c07f3917595816793fa5034ad53e76037a8ac6f71f258015bde9a37102",
+      "arm2_prometheus_schedule_ir_sha256": "595bdd6fd4e56bf69f47c722ff52f3abd670bc76ae58c65dcec83dd1fd142a96"
+    },
+    {
+      "problem_id": "P3_EbadiHard_13A_s9001",
+      "title": "13-Atom Top-Hardness Coupled-Clique King's-Graph UDG (HP=3.33)",
+      "selection_status": "development_selected_pilot_instance",
+      "n_atoms": 13,
+      "n_edges": 23,
+      "r_udg_cutoff_um": 7.5,
+      "coords_um": [
+        [
+          18.4,
+          0.0
+        ],
+        [
+          9.2,
+          4.6
+        ],
+        [
+          23.0,
+          4.6
+        ],
+        [
+          13.8,
+          9.2
+        ],
+        [
+          18.4,
+          9.2
+        ],
+        [
+          23.0,
+          9.2
+        ],
+        [
+          4.6,
+          13.8
+        ],
+        [
+          13.8,
+          13.8
+        ],
+        [
+          18.4,
+          13.8
+        ],
+        [
+          23.0,
+          13.8
+        ],
+        [
+          9.2,
+          18.4
+        ],
+        [
+          18.4,
+          18.4
+        ],
+        [
+          23.0,
+          18.4
+        ]
+      ],
+      "edges": [
+        [
+          0,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          3,
+          7
+        ],
+        [
+          3,
+          8
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          4,
+          7
+        ],
+        [
+          4,
+          8
+        ],
+        [
+          4,
+          9
+        ],
+        [
+          5,
+          8
+        ],
+        [
+          5,
+          9
+        ],
+        [
+          6,
+          10
+        ],
+        [
+          7,
+          8
+        ],
+        [
+          7,
+          10
+        ],
+        [
+          7,
+          11
+        ],
+        [
+          8,
+          9
+        ],
+        [
+          8,
+          11
+        ],
+        [
+          8,
+          12
+        ],
+        [
+          9,
+          11
+        ],
+        [
+          9,
+          12
+        ],
+        [
+          11,
+          12
+        ]
+      ],
+      "min_radial_um": 4.6,
+      "min_nonzero_row_gap_um": 4.6,
+      "max_edge_um": 6.5054,
+      "min_nonedge_um": 9.2,
+      "blockade_contrast_ratio": 8.0,
+      "alpha_mis": 6,
+      "n_optimal_mis_states": 1,
+      "optimal_masks": [
+        4323
+      ],
+      "n_alpha_minus_1_states": 20,
+      "ebadi_hardness_hp": 3.333,
+      "n_valid_is_states": 268,
+      "n_suboptimal_maximal_traps": 31,
+      "matched_controls": {
+        "identical_atom_coordinates": true,
+        "pulse_duration_us": 3.0,
+        "omega_peak_Mrad_s": 15.7,
+        "uses_local_detuning": false,
+        "baseline_reference": "amazon-braket-examples/examples/analog_hamiltonian_simulation/02_Ordered_phases_in_Rydberg_systems.ipynb (Cell 7)"
+      },
+      "arm1_aws_baseline_ir_sha256": "3a1aa04be737757ab7895cd597f99ac2f08c2500bbad16a290dd1237f5f107d6",
+      "arm2_prometheus_schedule_ir_sha256": "2657a5066a2ffd718547448ee70272b0f88772296910a8bdde0c5c424d440be8"
+    }
+  ]
+}
