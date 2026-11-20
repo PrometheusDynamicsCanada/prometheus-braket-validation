@@ -58,7 +58,7 @@ Contains 12 rows (one per live AWS Braket Analog Hamiltonian Simulation task on 
 
 | Column Name | Type | Direction | Description |
 | :--- | :--- | :---: | :--- |
-| `round` | `int` | Info | Separated execution window index (`1` or `2`, `+6.2h` apart on `2026-11-20`). |
+| `round` | `int` | Info | Separated batch / execution window index (`1` or `2`: submitted `+84.9h` apart on `2026-11-16 21:35Z` vs. `2026-11-20 10:29Z`; physically executed `+6.2h` apart on `2026-11-20` at `04:15-04:28Z` vs. `10:32-10:43Z`). |
 | `seq_pos` | `int` | Info | Interleaved submission position (`1` to `6`) within the round. |
 | `task_key` | `string` | Info | Unique campaign task key (`R{1,2}_{problem_id}_{arm}`). |
 | `task_arn` | `string` | Info | Verifiable AWS Braket Quantum Task ARN (`arn:aws:braket:us-east-1:893688540163:quantum-task/...`). |
