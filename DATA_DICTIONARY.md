@@ -54,7 +54,7 @@ Contains 10 rows corresponding to the 10 identical logical workloads (`dense_6q_
 
 ## 3. Neutral-Atom Ledger: `data/ALL_12_QUERA_AQUILA_TASKS_RESULTS.csv`
 
-Contains 12 rows (one per live AWS Braket Analog Hamiltonian Simulation task on `256`-atom `QuEra Aquila`, totaling `3,000` physical Rb-87 shots across 2 separated execution windows, `USD 33.6000`). Zero cells contain placeholder values.
+Contains 12 rows (one per live AWS Braket Analog Hamiltonian Simulation task on `256`-atom `QuEra Aquila`, totaling `3,000` physical Rb-87 shots across 2 separated execution windows, `$33.60`). Zero cells contain placeholder values.
 
 | Column Name | Type | Direction | Description |
 | :--- | :--- | :---: | :--- |
@@ -69,7 +69,7 @@ Contains 12 rows (one per live AWS Braket Analog Hamiltonian Simulation task on 
 | `ebadi_hp` | `float` | Info | Classical Ebadi Hardness parameter `HP = D_{|MIS|-1} / (|MIS| * D_{|MIS|})` (`3.0`, `4.8`, or `3.333`). |
 | `pipeline` | `string` | Info | Public schedule designation (`aws_documented_baseline` or `prometheus_schedule`). |
 | `shots` | `int` | Info | Billed physical Rb-87 shots per task (`250`). |
-| `charged_usd` | `float` | `(↓)` | On-demand AWS Braket task charge (`0.30 + 0.01 * 250 = 2.8000 USD`). |
+| `charged_usd` | `float` | `(↓)` | On-demand AWS Braket task charge (`$0.30 + $0.01 * 250 = $2.80`). |
 | `created_at_utc` | `string` | Info | AWS Braket task creation timestamp (`UTC`). |
 | `ended_at_utc` | `string` | Info | AWS Braket task completion timestamp (`UTC`). |
 | `ir_sha256` | `string` | Info | SHA-256 digest of the frozen discretized `AnalogHamiltonianSimulation` IR program. |
