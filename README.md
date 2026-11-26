@@ -1,26 +1,28 @@
-# Multi-Window Amazon Braket Validation (`108Q` Rigetti & `256`-Atom QuEra)
+# Multi-Window Amazon Braket Validation (108Q Rigetti & 256-Atom QuEra)
 
-*Portfolio Hub: [Prometheus Quantum Overview](https://github.com/PrometheusDynamicsCanada/prometheus-quantum-overview) · [Complexity Atlas (`Cepheus-1` Star)](https://github.com/PrometheusDynamicsCanada/prometheus-circuit-complexity-atlas) · [Detailed Report](DETAILED_TECHNICAL_REPORT.md)*
+*Portfolio Hub: [Prometheus Quantum Overview](https://github.com/PrometheusDynamicsCanada/prometheus-quantum-overview) · [Complexity Atlas (Cepheus-1 Star)](https://github.com/PrometheusDynamicsCanada/prometheus-circuit-complexity-atlas) · [Detailed Report](DETAILED_TECHNICAL_REPORT.md)*
 
-## Introduction
+Cloud quantum calibrations drift over hours, and teams using Amazon Braket work across both gate-based superconducting chips and analog neutral-atom devices. We tested whether Prometheus's execution improvements repeat across separated calibration windows on 108-qubit Rigetti Cepheus-1-108Q and on 256-atom QuEra Aquila.
 
-- **The question:** Do Prometheus's execution gains hold across repeated calibration windows on Amazon Braket - both on a multi-chip superconducting gate processor and on a neutral-atom analog device?
-- **The test:** Across `22` AWS Braket tasks (`462` runs, `463,800` physical shots, `$232.44` settled), we ran two distinct hardware studies: (1) `10` gate-model `ProgramSet` tasks (`450` circuits, `460,800` shots) on `108`-qubit `Rigetti Cepheus-1-108Q` across initial, `+9.3h` drift, and post-recalibration windows vs. Qiskit SABRE O3 and Quantinuum TKET O2; and (2) `12` Analog Hamiltonian Simulation (`AHS`) tasks (`3,000` Rb-87 shots across `2` separated windows) on **`11-13`-atom instances** arranged on the **`256`-atom `QuEra Aquila`** neutral-atom device vs. AWS's documented schedule.
-- **The finding:** On `Rigetti Cepheus-1`, live-calibration Prometheus beat SABRE O3 on **`16/18` workloads (`+3.91%` 3-window output-distribution agreement, rising to `+6.61%` after recalibration)** and TKET on **`15/18` (`+9.03%`)**. On `256`-atom `QuEra Aquila` (`11-13`-atom instances), Prometheus outperformed AWS's baseline in both execution windows (`881` vs. `852` exact optimal answers), replicated **`60.0%` vs. `50.8%` (`+18.11%` yield, `-15.35%` cost/optimum, `p = 0.0042`)** on the hardest `12`-atom graph, and cut suboptimal maximal-independent-set outcomes by **`-40.34%`** (`p = 1.1e-5`).
-- **The significance:** Demonstrates repeatable gains across multi-chip superconducting calibration shifts and global-drive neutral-atom optimization.
-- **The boundary:** On Rigetti `4Q-36Q` Clifford mirrors SABRE led slightly (`0.6221` vs. `0.6139` bit accuracy), and on easier `11`-atom and `13`-atom Aquila graphs exact optimum rates were statistically indistinguishable (`p >= 0.60`, though suboptimal MIS fell `-38.6%` to `-40.0%`).
-- **The evidence:** Opening 3-window Rigetti chart and two-architecture summary table below, with full Pillar 1-4 and Aquila tables and raw shot verification underneath.
+On Rigetti Cepheus-1 across initial, +9.3-hour drift, and post-recalibration windows, Prometheus outperformed Qiskit SABRE O3 on 16 of 18 workloads (+3.91% three-window average output agreement, rising to +6.61% after recalibration) and Quantinuum TKET O2 on 15 of 18 (+9.03%). In a separate neutral-atom optimization study across 11-to-13-atom graph instances on 256-atom QuEra Aquila, Prometheus beat AWS's documented schedule in both windows, increasing exact optimal answers on the hardest 12-atom graph from 50.8% to 60.0% (+18.1% yield, -15.4% cost per optimum) and cutting suboptimal traps by 40.3%.
+
+On Rigetti 4-to-36-qubit Clifford mirror diagnostics SABRE led slightly (0.6221 vs. 0.6139 bit accuracy), and on easier 11-atom and 13-atom Aquila graphs exact optimum rates were statistically tied even though suboptimal traps fell by 38.6% to 40.0%.
+
+This repository contains the circuits, raw Rb-87 atom sequences, and offline verification tools from 22 completed Amazon Braket tasks (463,800 measurement shots).
 
 ![Three-Calibration-Window Replication on 108-Qubit Rigetti Hardware](assets/fig1_rigetti_3window_replication.png)
-*Opening summary: Output-distribution agreement across 18 workloads (`4Q-17Q`, `216` circuits) on 108Q Rigetti Cepheus-1 across 3 calibration windows.*
+*Summary figure: Average output agreement across 18 workloads (4 to 17 qubits, 216 circuits) on 108-qubit Rigetti Cepheus-1 across three calibration windows.*
+
+**[Read the detailed results](#detailed-results) · [Verify the data](#verify-the-data) · [Request an evaluation](https://prometheusdynamics.ca/connect/) · [Book a demonstration](mailto:william@prometheusdynamics.ca?subject=Prometheus%20Braket%20Evaluation)**
 
 ---
 
+<a id="detailed-results"></a>
 ## Executive Summary (`22` AWS Braket Tasks: `10` Rigetti Gate-Model + `12` `256`-Atom QuEra Analog, `463,800` Shots)
 
 *Hardware Task ARNs:* Rigetti `2a6b5957..`..`8b348409..` ([`ALL_450_RIGETTI_CIRCUITS_RESULTS.csv`](data/ALL_450_RIGETTI_CIRCUITS_RESULTS.csv)); QuEra `f95ab6..`..`88a26a..` ([`ALL_12_QUERA_AQUILA_TASKS_RESULTS.csv`](data/ALL_12_QUERA_AQUILA_TASKS_RESULTS.csv)).
 
-| Architecture, Cohort & Strategy | Primary / Optimum `(↑)` | Output Agreement $F_B$ / $P_{\text{valid}}$ `(↑)` | $F_H$ / DF $P_{\text{opt}}$ `(↑)` | `HOP` / `TVD` `*(mean)*` | `CZ` / Depth `(↓)` | Outcome & Statistical Test |
+| Architecture, Cohort & Strategy | Primary / Optimum `(↑)` | Output Agreement $F_B$ / $P_{\text{valid}}$ `(↑)` | $F_H$ / DF $P_{\text{opt}}$ `(↑)` | `HOP` / `TVD` *(mean)* | `CZ` / Depth `(↓)` | Outcome & Statistical Test |
 | :--- | :---: | :---: | :---: | :---: | :---: | :--- |
 | **Rigetti 3-Window (`216` circs): SABRE O3** | `0.5011` | `0.5035` (`0.5841` med) | `0.3519` | `0.5586` / `0.6916` | `105.4` / `194.4` | `2 / 18` vs. Prom |
 | **Rigetti 3-Window (`216` circs): TKET O2** | `0.4801` | `0.4799` (`0.4941` med) | `0.3243` | `0.5309` / `0.7196` | `120.4` / `234.2` | `2 / 18` vs. Prom |
@@ -32,11 +34,12 @@
 
 ---
 
+<a id="verify-the-data"></a>
 ## Inspect the Evidence & Reproduce Supported Checks Offline
 
 - **Command:** `python scripts/verify_braket_campaign.py`
 - **Dependencies & measured runtime:** Python 3 + `numpy` + `scipy` (`0` cloud credentials, **`~1.34 s`** measured runtime; reconstructs all `450` Rigetti circuits and `3,000` raw `pre`/`post_sequence` Rb-87 neutral-atom shots).
-- **Start a pilot:** [william@prometheusdynamics.ca](mailto:william@prometheusdynamics.ca) | [prometheusdynamics.ca](https://prometheusdynamics.ca)
+- **Request an evaluation or book a demonstration:** [prometheusdynamics.ca/connect](https://prometheusdynamics.ca/connect/) | [william@prometheusdynamics.ca](mailto:william@prometheusdynamics.ca?subject=Prometheus%20Evaluation)
 
 ---
 
