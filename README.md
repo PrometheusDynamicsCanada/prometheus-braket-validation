@@ -1,19 +1,20 @@
 # Multi-Window Amazon Braket Validation (108Q Rigetti & 256-Atom QuEra)
 
-*Portfolio Hub: [Prometheus Quantum Overview](https://github.com/PrometheusDynamicsCanada/prometheus-quantum-overview) · [Complexity Atlas (Cepheus-1 Star)](https://github.com/PrometheusDynamicsCanada/prometheus-circuit-complexity-atlas) · [Detailed Report](DETAILED_TECHNICAL_REPORT.md)*
+*Portfolio Hub: [Prometheus Quantum Overview](https://github.com/PrometheusDynamicsCanada/prometheus-quantum-overview) · [IBM/IQM Chemistry Cost Study (52%-60% Savings)](https://github.com/PrometheusDynamicsCanada/prometheus-quantum-chemistry) · [Detailed Report](DETAILED_TECHNICAL_REPORT.md)*
 
 Cloud quantum calibrations drift over hours, and teams using Amazon Braket work across both gate-based superconducting chips and analog neutral-atom devices. We tested whether Prometheus's execution improvements repeat across separated calibration windows on 108-qubit Rigetti Cepheus-1-108Q and on 256-atom QuEra Aquila.
 
-On Rigetti Cepheus-1 across initial, +9.3-hour drift, and post-recalibration windows, Prometheus outperformed Qiskit SABRE O3 on 16 of 18 workloads (+3.91% three-window average output agreement, rising to +6.61% after recalibration) and Quantinuum TKET O2 on 15 of 18 (+9.03%). In a separate neutral-atom optimization study across 11-to-13-atom graph instances on 256-atom QuEra Aquila, Prometheus beat AWS's documented schedule in both windows, increasing exact optimal answers on the hardest 12-atom graph from 50.8% to 60.0% (+18.1% yield, -15.4% cost per optimum) and cutting suboptimal traps by 40.3%.
+On Rigetti Cepheus-1 across initial, +9.3-hour drift, and post-recalibration windows, Prometheus outperformed Qiskit SABRE O3 on 16 of 18 workloads (+3.91% three-window average output agreement, rising to +6.61% after recalibration) and Quantinuum TKET O2 on 15 of 18 (+9.03%). In a separate neutral-atom optimization study across 11-to-13-atom graph instances on 256-atom QuEra Aquila, Prometheus beat AWS's documented schedule in both windows, increasing exact optimal answers on the hardest 12-atom graph from 50.8% to 60.0% (+18.1% yield, -15.4% cost per optimum, p = 0.0042) and cutting suboptimal traps by 40.3%.
 
-On Rigetti 4-to-36-qubit Clifford mirror diagnostics SABRE led slightly (0.6221 vs. 0.6139 bit accuracy), and on easier 11-atom and 13-atom Aquila graphs exact optimum rates were statistically tied even though suboptimal traps fell by 38.6% to 40.0%.
+- **Relevance to Amazon Braket quantum chemistry workflows:** Separate benchmarks on IBM Fez and IQM Emerald ([`prometheus-quantum-chemistry`](https://github.com/PrometheusDynamicsCanada/prometheus-quantum-chemistry)) reduced billed hardware resources per confirmed molecular-energy result by 52% to 60% (those chemistry savings were measured on IBM and IQM, not Braket). Together with the Rigetti and QuEra studies here, they provide a direct foundation for evaluating a customer-facing chemistry execution and verification workflow on Amazon Braket next.
+- **Measured boundaries:** On Rigetti 4-to-36-qubit Clifford mirror diagnostics SABRE led slightly (0.6221 vs. 0.6139 bit accuracy), and on easier 11-atom and 13-atom Aquila graphs exact optimum rates were statistically tied even though suboptimal traps fell by 38.6% to 40.0%.
 
 This repository contains the circuits, raw Rb-87 atom sequences, and offline verification tools from 22 completed Amazon Braket tasks (463,800 measurement shots).
 
 ![Three-Calibration-Window Replication on 108-Qubit Rigetti Hardware](assets/fig1_rigetti_3window_replication.png)
 *Summary figure: Average output agreement across 18 workloads (4 to 17 qubits, 216 circuits) on 108-qubit Rigetti Cepheus-1 across three calibration windows.*
 
-**[Read the detailed results](#detailed-results) · [Verify the data](#verify-the-data) · [Request an evaluation](https://prometheusdynamics.ca/connect/) · [Book a demonstration](mailto:william@prometheusdynamics.ca?subject=Prometheus%20Braket%20Evaluation)**
+**[Read the detailed results](#detailed-results) · [Verify the data](#verify-the-data) · [Evaluate chemistry or compilation on Braket](https://prometheusdynamics.ca/connect/) · [Propose a joint Braket pilot](mailto:william@prometheusdynamics.ca?subject=Amazon%20Braket%20Chemistry%20Workflow%20Pilot)**
 
 ---
 
