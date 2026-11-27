@@ -2,7 +2,7 @@
 
 *Portfolio Hub: [Prometheus Quantum Overview](https://github.com/PrometheusDynamicsCanada/prometheus-quantum-overview) · [IBM/IQM Chemistry Cost Study (52%-60% Savings)](https://github.com/PrometheusDynamicsCanada/prometheus-quantum-chemistry) · [Detailed Report](DETAILED_TECHNICAL_REPORT.md)*
 
-Cloud quantum calibrations drift over hours, and teams using Amazon Braket work across both gate-based superconducting chips and analog neutral-atom devices. We tested whether Prometheus's execution improvements repeat across separated calibration windows on 108-qubit Rigetti Cepheus-1-108Q and on 256-atom QuEra Aquila.
+Cloud quantum calibrations drift over hours, and teams using Amazon Braket work across both gate-based superconducting chips and analog neutral-atom devices. We tested whether Prometheus's execution improvements repeat across separated execution windows (with calibration changes identified where recorded) on 108-qubit Rigetti Cepheus-1-108Q and on 256-atom QuEra Aquila.
 
 On Rigetti Cepheus-1 across initial, +9.3-hour drift, and post-recalibration windows, Prometheus outperformed Qiskit SABRE O3 on 16 of 18 workloads (+3.91% three-window average output agreement, rising to +6.61% after recalibration) and Quantinuum TKET O2 on 15 of 18 (+9.03%). In a separate neutral-atom optimization study across 11-to-13-atom graph instances on 256-atom QuEra Aquila, Prometheus beat AWS's documented schedule in both windows, increasing exact optimal answers on the hardest 12-atom graph from 50.8% to 60.0% (+18.1% yield, -15.4% cost per optimum, p = 0.0042) and cutting suboptimal traps by 40.3%.
 
